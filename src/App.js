@@ -5,15 +5,21 @@ import React, { useState } from 'react';
 function App() {
 
   const [todo, settodo] = useState([]);
-
   const [inputValue, setinputValue] = useState("");
-
   const [filter, setfilter] = useState("");
-
-  
 
   const handleInputChange = (event) => {
     setinputValue(event.target.value);
+  }
+
+  const handleAddTask = () => {
+    if (inputValue.trim()) {
+      const newTask = {
+        id: Data.now(),
+        name: inputValue,
+        completed: false
+      }
+    }
   }
 
   
