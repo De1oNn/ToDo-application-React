@@ -1,0 +1,65 @@
+/* .App {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  #todo-header {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .add-button-input {
+    margin-bottom: 20px;
+  }
+  
+  #input {
+    padding: 10px;
+    width: 300px;
+  }
+  
+  #button {
+    padding: 10px 20px;
+    margin-left: 10px;
+  }
+  
+  #buttons {
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button.active-filter {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  #task-area {
+    margin-top: 20px;
+  }
+  
+  .task {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .task input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .completed {
+    text-decoration: line-through;
+    color: grey;
+  }
+  
+  #powered {
+    font-size: 0.8em;
+    color: grey;
+    margin-top: 40px;
+  } */
