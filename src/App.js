@@ -14,7 +14,7 @@ function App() {
   const [todo, setTodo] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
-  // const [filter, setfilter] = useState("");
+  const [filter, setfilter] = useState("All");
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -30,30 +30,24 @@ function App() {
       setInputValue("");
     }
   };
-  const handleCheckBox = (id) => {
-    console.log(id);
+  const handleBox = (id) => {
+    const newTodos = todo.map((todo) => {
+      if (todo.id === id) {
+        return {...todo, status: "Done"}
+      } else {
+        return todo;
+      };
+    });
+    setTodo(newTodos);
   } 
-  console.log(todo);
+  console.log(filter);
+
+  const handlefiltersstate = (state) => {
+    setfilter(state)
+  }
   
-    // if (inputValue.trim()) {
-    //   const newTask = {
-    //     id: Date.now(),
-    //     name: inputValue,
-    //     completed: false,
-    //   };
-    //   console.log(todo);
-    //   settodo([...todo, newTask]);
-    //   setinputValue("");
-    //   }
-    // };
-
-    // const handleToggleCompletion = (id) => {
-
-    // }
-
   
   return (
-    <div>
       <div className="App">
         <p id='todo-header'>To-Do List</p>
         <div className='add-button-input'>
@@ -61,24 +55,31 @@ function App() {
           <button id='button' onClick={handleAddTask}>Add</button>
         </div>
         <div id='buttons'>
-          <button id='all-button'>All</button>
-          <button id='active-button'>Active</button>
-          <button id='completed-button'>Completed</button>
+          <button id='all-button' onClick={() => handlefiltersstate("All")}>All</button>
+          <button id='active-button' onClick={() => handlefiltersstate("Active")}>Active</button>
+          <button id='completed-button' onClick={() => handlefiltersstate("Done")}>Completed</button>
         </div>
         <div>
         {error.length > 1 && <div id='error'>{error}</div>}
-        {todo.map((todo) => {
+        {todo.filter((todo) => {
+          if (filter === "All") {
+            return true
+          } else {
+            return todo.status === filter;
+          }
+        }).map((todo) => {
             return <div id='newtask'>
-              <input type='checkbox' onChange = {handleCheckBox(todo.id)}></input>
-              {todo.text}</div>
+              <input type='checkbox' checked={todo.status === "Done"} id='checkbox' onChange = {() => handleBox(todo.id)}></input>
+              {todo.text}
+              <button id='delete'>Delete</button>
+              </div>
           })}
-        
+
         </div>
         <div id='line'></div>
         <p id='task-area'>No tasks yet. Add one above!</p>
         <p id='powered'>Powered by Pinecone academy</p>
       </div>
-    </div>
   );
 }
 

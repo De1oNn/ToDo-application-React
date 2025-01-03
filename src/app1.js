@@ -1,106 +1,115 @@
+import { use } from 'react';
 import './App.css';
 import React, { useState } from 'react';
+import { keyboard } from '@testing-library/user-event/dist/keyboard'; 
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-  // 1. State variables
-  const [todo, settodo] = useState([]);  // List of tasks
-  const [inputValue, setinputValue] = useState("");  // Input field value
-  const [filter, setFilter] = useState("all");  // Filter for tasks (All, Active, Completed)
+  const [todo, setTodo] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [error, setError] = useState("");
+  const [filter, setFilter] = useState("All"); // Add filter state
 
-  // 2. Handle input changes
+  // Handle input change
   const handleInputChange = (event) => {
-    setinputValue(event.target.value);
+    setInputValue(event.target.value);
+    setError(""); // Clear error on input change
   };
 
-  // 3. Add a new task
+  // Add a new task
   const handleAddTask = () => {
-    if (inputValue.trim()) {
-      const newTask = {
-        id: Date.now(),  // unique ID for each task
-        name: inputValue,
-        completed: false,  // task is initially not completed
-      };
-      settodo([...todo, newTask]);
-      setinputValue("");  // Reset the input field
+    if (inputValue.length === 0) {
+      setError("Please Enter ToDo Task");
+      return;
+    } else {
+      setTodo([
+        ...todo,
+        { text: inputValue, id: uuidv4(), status: "Active" },
+      ]);
+      setInputValue(""); // Clear input field
     }
   };
 
-  // 4. Toggle task completion
-  const handleToggleCompletion = (id) => {
-    settodo(todo.map((task) => 
-      task.id === id ? { ...task, completed: !task.completed } : task
-    ));
+  // Toggle the task status (Active <-> Completed)
+  const handleCheckBox = (id) => {
+    setTodo(
+      todo.map((task) => {
+        if (task.id === id) {
+          return {
+            ...task,
+            status: task.status === "Active" ? "Completed" : "Active", // Toggle status
+          };
+        }
+        return task;
+      })
+    );
   };
 
-  // 5. Filter tasks based on the selected filter
-  const filteredTasks = todo.filter((task) => {
-    if (filter === "all") return true;
-    if (filter === "active") return !task.completed;
-    if (filter === "completed") return task.completed;
-    return true;
+  // Delete a task
+  const handleDelete = (id) => {
+    setTodo(todo.filter((task) => task.id !== id)); // Remove task by id
+  };
+
+  // Filter tasks based on the selected filter
+  const filteredTodos = todo.filter((task) => {
+    if (filter === "Active") return task.status === "Active";
+    if (filter === "Completed") return task.status === "Completed";
+    return true; // Show all tasks for "All"
   });
 
   return (
     <div className="App">
-      <p id='todo-header'>To-Do List</p>
-
-      {/* Add Task Input and Button */}
-      <div className='add-button-input'>
-        <input 
-          id='input' 
-          value={inputValue} 
-          onChange={handleInputChange} 
-          placeholder='Add a new task...'
+      <p id="todo-header">To-Do List</p>
+      <div className="add-button-input">
+        <input
+          id="input"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder="Add a new task..."
         />
-        <button id='button' onClick={handleAddTask}>Add</button>
+        <button id="button" onClick={handleAddTask}>
+          Add
+        </button>
       </div>
 
       {/* Filter Buttons */}
-      <div id='buttons'>
-        <button 
-          id='all-button' 
-          onClick={() => setFilter("all")}
-          className={filter === "all" ? "active-filter" : ""}
-        >
+      <div id="buttons">
+        <button id="all-button" onClick={() => setFilter("All")}>
           All
         </button>
-        <button 
-          id='active-button' 
-          onClick={() => setFilter("active")}
-          className={filter === "active" ? "active-filter" : ""}
-        >
+        <button id="active-button" onClick={() => setFilter("Active")}>
           Active
         </button>
-        <button 
-          id='completed-button' 
-          onClick={() => setFilter("completed")}
-          className={filter === "completed" ? "active-filter" : ""}
-        >
+        <button id="completed-button" onClick={() => setFilter("Completed")}>
           Completed
         </button>
       </div>
 
-      {/* Task List */}
-      <div id='task-area'>
-        {filteredTasks.length === 0 ? (
-          <p>No tasks yet. Add one above!</p>
-        ) : (
-          filteredTasks.map((task) => (
-            <div key={task.id} className="task">
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => handleToggleCompletion(task.id)}
-              />
-              <span className={task.completed ? "completed" : ""}>
-                {task.name}
-              </span>
-            </div>
-          ))
+      {/* Display error message */}
+      {error.length > 0 && <div id="error">{error}</div>}
+
+      {/* Display the tasks */}
+      <div>
+        {filteredTodos.length === 0 && (
+          <p id="task-area">No tasks yet. Add one above!</p>
         )}
+        {filteredTodos.map((task) => (
+          <div key={task.id} id="newtask">
+            <input
+              type="checkbox"
+              checked={task.status === "Completed"}
+              onChange={() => handleCheckBox(task.id)} // Toggle status
+            />
+            {task.text}
+            <button id="delete" onClick={() => handleDelete(task.id)}>
+              Delete
+            </button>
+          </div>
+        ))}
       </div>
 
-      <p id='powered'>Powered by Pinecone Academy</p>
+      <div id="line"></div>
+      <p id="powered">Powered by Pinecone Academy</p>
     </div>
   );
 }
