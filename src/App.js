@@ -1,9 +1,16 @@
 import { use } from 'react';
 import './App.css';
 import React, { useState } from 'react';
+import { keyboard } from '@testing-library/user-event/dist/keyboard'; 
+import { v4 as uuidv4 } from 'uuid';
+
+const todo = {
+  text: "hello",
+  id: 1,
+  status: 'Active' | 'Completed',
+}
 
 function App() {
-
   const [todo, setTodo] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
@@ -11,6 +18,7 @@ function App() {
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
+    setError("")
   }
 
   const handleAddTask = () => {
@@ -18,11 +26,14 @@ function App() {
       setError('Please Enter ToDo Task');
       return;
     } else {
-      setTodo([...todo, inputValue]);
+      setTodo([...todo, {text: inputValue, id: uuidv4(), status: "Active"}]);
       setInputValue("");
     }
   };
-
+  const handleCheckBox = (id) => {
+    console.log(id);
+  } 
+  console.log(todo);
   
     // if (inputValue.trim()) {
     //   const newTask = {
@@ -57,7 +68,9 @@ function App() {
         <div>
         {error.length > 1 && <div id='error'>{error}</div>}
         {todo.map((todo) => {
-            return <div id='newtask'>{todo}</div>
+            return <div id='newtask'>
+              <input type='checkbox' onChange = {handleCheckBox(todo.id)}></input>
+              {todo.text}</div>
           })}
         
         </div>
