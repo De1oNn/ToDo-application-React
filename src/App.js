@@ -39,6 +39,7 @@ function App() {
     });
     setTodo(newTodos);
   };
+  
   const handleClearCompleted = () => {
     const newTodos = todo.filter((todo) => todo.status !== "Done");
     setTodo(newTodos);
@@ -90,7 +91,10 @@ function App() {
                   id='checkbox'
                   onChange={() => handleBox(todo.id)}
                 />
-                {todo.text}
+                <span 
+                  style={{textDecoration: todo.status === "Done" ? "line-through" : "none"}}> 
+                  {todo.text}
+                </span>
                 <button id='delete' onClick={() => handleDelete(todo.id)}>Delete</button>
               </div>
             );
@@ -103,7 +107,7 @@ function App() {
         <p id='clear' onClick={() => handleClearCompleted(todo.id)} >Clear Completed</p>
       </div>
       
-      <p id='powered'>Powered by Pinecone academy</p>
+      <div id='powered'>Powered by <p id='pinecone'>Pinecone academy</p></div>
     </div>
   );
 };
