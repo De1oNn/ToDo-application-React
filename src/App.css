@@ -145,8 +145,8 @@ body {
   margin-bottom: 15px;
 }
 #newtask {
-  height: 62px;
-  width: 345px;
+  min-height: 62px;
+  min-width: 345px;
   display: flex;
   justify-content: space-around;
   align-items: center;

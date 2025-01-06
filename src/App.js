@@ -13,8 +13,12 @@ function App() {
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
     setError("");
-  };
-
+  };{
+  const handlekeydown = (event) => {
+    if (event.key === "Enter") {
+      handleAddTask();
+    }
+  }; 
   const handleAddTask = () => {
     if (inputValue.length === 0) {
       setError('Please Enter ToDo Task');
@@ -22,7 +26,7 @@ function App() {
     } else {  
       setTodo([...todo, { text: inputValue, id: uuidv4(), status: "Active" }]);
       setInputValue("");
-    }
+    } 
   };
 
   const handleBox = (id) => {
@@ -57,9 +61,10 @@ function App() {
           id='input'
           value={inputValue}
           onChange={handleInputChange}
+          onKeyDown={handlekeydown}
           placeholder='Add a new task...'
         />
-        <button id='button' onClick={handleAddTask}>Add</button>
+        <button id='button' onClick={handleAddTask} onKeyDown={handlekeydown} >Add</button>
       </div>
       <div id='buttons'>
         <button id='all-button' onClick={() => handleFiltersState("All")}>All</button>
@@ -101,6 +106,7 @@ function App() {
       <p id='powered'>Powered by Pinecone academy</p>
     </div>
   );
+};
 };
 
 export default App;
