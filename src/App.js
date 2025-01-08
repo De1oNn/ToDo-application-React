@@ -8,7 +8,7 @@ function App() {
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("All");
 
-  // New state for controlling visibility of the loggin section
+
   const [logginVisible, setLogginVisible] = useState(false);
   const [logginTasks, setLogginTasks] = useState([]);
 
@@ -33,14 +33,14 @@ function App() {
       const newTask = { text: inputValue, id: uuidv4(), status: "Active", addedTime: new Date().toLocaleString() };
       setTodo([...todo, newTask]);
 
-      // Log the task addition time
+
       const logEntry = {
         task: inputValue,
         time: `Added at: ${new Date().toLocaleString()}`
       };
       setLogginTasks([...logginTasks, logEntry]);
 
-      setInputValue(""); // Clear input after adding task
+      setInputValue("");
     }
   };
 
@@ -57,7 +57,7 @@ function App() {
     });
     setTodo(newTodos);
 
-    // If the task is marked as "Done", log the completion time in logginTasks
+
     const completedTask = newTodos.find((todo) => todo.id === id);
     if (completedTask.status === "Done") {
       const logEntry = {
@@ -80,11 +80,11 @@ function App() {
 
   const handleFiltersState = (state) => {
     setFilter(state);
-    setLogginVisible(false); // Hide the loggin section when switching filters
+    setLogginVisible(false);
   };
 
   const handleLogginButtonClick = () => {
-    setLogginVisible(true); // Show loggin section when Loggin button is clicked
+    setLogginVisible(true);
   };
 
   return (
@@ -147,7 +147,6 @@ function App() {
         <p id="clear" onClick={handleClearCompleted}>Clear Completed</p>
       </div>
 
-      {/* Loggin section is visible when logginVisible is true */}
       {logginVisible && (
         <div id="loggin">
           {logginTasks.map((log, index) => (
