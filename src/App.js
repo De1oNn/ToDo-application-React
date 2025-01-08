@@ -8,7 +8,7 @@ function App() {
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("All");
 
-
+  // New state for controlling visibility of the loggin section
   const [logginVisible, setLogginVisible] = useState(false);
   const [logginTasks, setLogginTasks] = useState([]);
 
@@ -30,29 +30,42 @@ function App() {
       setError('Please Enter ToDo Task');
       return;
     } else {
-
-      const newTask = { text: inputValue, id: uuidv4(), status: "Active" };
+      const newTask = { text: inputValue, id: uuidv4(), status: "Active", addedTime: new Date().toLocaleString() };
       setTodo([...todo, newTask]);
 
-
+      // Log the task addition time
       const logEntry = {
         task: inputValue,
-        time: new Date().toLocaleTimeString()
+        time: `Added at: ${new Date().toLocaleString()}`
       };
       setLogginTasks([...logginTasks, logEntry]);
-      setInputValue("");
+
+      setInputValue(""); // Clear input after adding task
     }
   };
 
   const handleBox = (id) => {
     const newTodos = todo.map((todo) => {
       if (todo.id === id) {
-        return { ...todo, status: todo.status === "Active" ? "Done" : "Active" };
+        const newStatus = todo.status === "Active" ? "Done" : "Active";
+        const completionTime = newStatus === "Done" ? new Date().toLocaleString() : null;
+
+        return { ...todo, status: newStatus, completedTime: completionTime };
       } else {
         return todo;
       }
     });
     setTodo(newTodos);
+
+    // If the task is marked as "Done", log the completion time in logginTasks
+    const completedTask = newTodos.find((todo) => todo.id === id);
+    if (completedTask.status === "Done") {
+      const logEntry = {
+        task: completedTask.text,
+        time: `Completed at: ${completedTask.completedTime}`
+      };
+      setLogginTasks([...logginTasks, logEntry]);
+    }
   };
 
   const handleClearCompleted = () => {
@@ -67,10 +80,11 @@ function App() {
 
   const handleFiltersState = (state) => {
     setFilter(state);
+    setLogginVisible(false); // Hide the loggin section when switching filters
   };
 
-  const toggleLoggin = () => {
-    setLogginVisible(!logginVisible);
+  const handleLogginButtonClick = () => {
+    setLogginVisible(true); // Show loggin section when Loggin button is clicked
   };
 
   return (
@@ -91,7 +105,8 @@ function App() {
         <button id="all-button" onClick={() => handleFiltersState("All")}>All</button>
         <button id="active-button" onClick={() => handleFiltersState("Active")}>Active</button>
         <button id="completed-button" onClick={() => handleFiltersState("Done")}>Completed</button>
-        <button id="loggin-button" onClick={toggleLoggin}>Loggin</button>
+        {/* Loggin button will now always show the loggin section when clicked */}
+        <button id="loggin-button" onClick={handleLogginButtonClick}>Loggin</button>
       </div>
 
       <div>
@@ -132,19 +147,20 @@ function App() {
         <p id="clear" onClick={handleClearCompleted}>Clear Completed</p>
       </div>
 
+      {/* Loggin section is visible when logginVisible is true */}
       {logginVisible && (
-          <div id="loggin">
-            {logginTasks.map((log, index) => (
-              <div key={index} className="log-entry">
-                <div className="log-entry-task">
-                  <span id='log-input'>{log.task}</span> 
-                </div>
-                <div className="log-entry-time">
-                  <span>Added at: {log.time}</span>
-                </div>
+        <div id="loggin">
+          {logginTasks.map((log, index) => (
+            <div key={index} className="log-entry">
+              <div className="log-entry-task">
+                <span id="log-input">{log.task}</span>
               </div>
-            ))}
-          </div>
+              <div className="log-entry-time">
+                <span>{log.time}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
 
       <div id="powered">
