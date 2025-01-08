@@ -233,3 +233,54 @@ span {
   color: crimson;
   cursor: pointer;
 }
+#loggin-task {
+  min-height: 62px;
+  max-height: 120px;
+  width: 345px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  gap: 10px;
+  background: #f9fafb;
+  margin-bottom: 20px;
+  border: 0.5px solid #E4E4E7;
+}
+#loggin-button {
+  height: 32px;
+  width: 56px;
+  border-radius: 8px;
+  border: 1px solid #F3F4F6;
+  margin-left: 5px;
+  color: #363636;
+}
+#loggin-button:focus {
+  background-color: #3C82F6;
+  color: white;
+  border: 1px solid #3C82F6;
+}
+.log-entry {
+  margin: 10px 0;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* Style for task text */
+.log-entry-task {
+  font-weight: bold;
+}
+
+/* Style for timestamp */
+.log-entry-time {
+  color: #777;
+  font-size: 0.9em;
+}
+#loggin {
+  height: 100%;
+  width: 100%;
+}
+#log-input {
+  word-break: break-all;
+}
