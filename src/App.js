@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
+import Button from './component/buttons';
 
 function App() {
   const [todo, setTodo] = useState([]);
@@ -105,7 +106,6 @@ function App() {
         <button id="all-button" onClick={() => handleFiltersState("All")}>All</button>
         <button id="active-button" onClick={() => handleFiltersState("Active")}>Active</button>
         <button id="completed-button" onClick={() => handleFiltersState("Done")}>Completed</button>
-        {/* Loggin button will now always show the loggin section when clicked */}
         <button id="loggin-button" onClick={handleLogginButtonClick}>Loggin</button>
       </div>
 
