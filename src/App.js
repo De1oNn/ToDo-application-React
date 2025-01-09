@@ -22,18 +22,14 @@ function App() {
     } else {
       const newTask = { text: inputValue, id: uuidv4(), status: "Active", addedTime: new Date().toLocaleString() };
       setTodo([...todo, newTask]);
-
-
       const logEntry = {
         task: inputValue,
         time: `Added at: ${new Date().toLocaleString()}`
       };
       setLogginTasks([...logginTasks, logEntry]);
-
       setInputValue("");
     }
   };
-
   const handleBox = (id) => {
     const newTodos = todo.map((todo) => {
       if (todo.id === id) {
@@ -103,6 +99,7 @@ function App() {
         <p id="tasks">{completedTasks} of {todo.length} tasks completed</p>
         <p id="clear" onClick={handleClearCompleted}>Clear Completed</p>
       </div>
+{/* loggin new divs */}
       {logginVisible && (
         <div id="loggin">
           {logginTasks.map((log, index) => (
