@@ -3,6 +3,7 @@ import './App.css';
 import { v4 as uuidv4 } from 'uuid';
 import Button from './component/Button';
 import Search from './component/Search';
+import Newtask from './component/Newtask';
 
 function App() {
   const [todo, setTodo] = useState([]);
@@ -14,18 +15,6 @@ function App() {
   const [logginTasks, setLogginTasks] = useState([]);
 
   const completedTasks = todo.filter(task => task.status === "Done").length;
-
-  // const handleInputChange = (event) => {
-  //   setInputValue(event.target.value);
-  //   setError("");
-  // };
-
-  // const handleKeyDown = (event) => {
-  //   if (event.key === "Enter") {
-  //     handleAddTask();
-  //   }
-  // };
-
   const handleAddTask = () => {
     if (inputValue.length === 0) {
       setError('Please Enter ToDo Task');
@@ -79,26 +68,11 @@ function App() {
     setTodo(newTodos);
   };
 
-  // const handleFiltersState = (state) => {
-  //   setFilter(state);
-  //   setLogginVisible(false);
-  // };
-
-  // const handleLogginButtonClick = () => {
-  //   setLogginVisible(true);
-  // };
-
   return (
     <div className="App">
       <p id="todo-header">To-Do List</p>
       <div className="add-button-input">
-        {/* <input
-          id="input"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Add a new task..."
-        /> */}
+
         <Search 
         inputValue={inputValue}
         setInputValue={setInputValue}
@@ -107,44 +81,18 @@ function App() {
         />
         <button id="button" onClick={handleAddTask}>Add</button>
       </div>
-
-      {/* <div id="buttons">
-        <button id="all-button" onClick={() => handleFiltersState("All")}>All</button>
-        <button id="active-button" onClick={() => handleFiltersState("Active")}>Active</button>
-        <button id="completed-button" onClick={() => handleFiltersState("Done")}>Completed</button>
-        <button id="loggin-button" onClick={handleLogginButtonClick}>Loggin</button>
-      </div> */}
       <Button 
       setFilter={setFilter} 
       setLogginVisible={setLogginVisible} 
       />
-      <div>
-        {error.length > 1 && <div id="error">{error}</div>}
-        {todo
-          .filter((todo) => {
-            if (filter === "All") {
-              return true;
-            } else {
-              return todo.status === filter;
-            }
-          })
-          .map((todo) => {
-            return (
-              <div id="newtask" key={todo.id}>
-                <input
-                  type="checkbox"
-                  checked={todo.status === "Done"}
-                  id="checkbox"
-                  onChange={() => handleBox(todo.id)}
-                />
-                <span style={{ textDecoration: todo.status === "Done" ? "line-through" : "none" }}>
-                  {todo.text}
-                </span>
-                <button id="delete" onClick={() => handleDelete(todo.id)}>Delete</button>
-              </div>
-            );
-          })}
-      </div>
+
+      <Newtask
+        handleBox={handleBox}
+        handleDelete={handleDelete}
+        filter={filter}
+        todo={todo}
+        error={error}
+      />
 
       <div id="line"></div>
       <p id="task-area" style={{ display: todo.length === 0 ? 'flex' : 'none' }}>
@@ -155,7 +103,6 @@ function App() {
         <p id="tasks">{completedTasks} of {todo.length} tasks completed</p>
         <p id="clear" onClick={handleClearCompleted}>Clear Completed</p>
       </div>
-
       {logginVisible && (
         <div id="loggin">
           {logginTasks.map((log, index) => (
