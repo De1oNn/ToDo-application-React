@@ -1,30 +1,30 @@
 import { useState } from 'react';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
-import Button from './component/buttons';
+import Button from './component/Button';
+import Search from './component/Search';
 
 function App() {
   const [todo, setTodo] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
-  const [filter, setFilter] = useState("All");
-
+  const [filter, setFilter] = useState("All");  
 
   const [logginVisible, setLogginVisible] = useState(false);
   const [logginTasks, setLogginTasks] = useState([]);
 
   const completedTasks = todo.filter(task => task.status === "Done").length;
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-    setError("");
-  };
+  // const handleInputChange = (event) => {
+  //   setInputValue(event.target.value);
+  //   setError("");
+  // };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleAddTask();
-    }
-  };
+  // const handleKeyDown = (event) => {
+  //   if (event.key === "Enter") {
+  //     handleAddTask();
+  //   }
+  // };
 
   const handleAddTask = () => {
     if (inputValue.length === 0) {
@@ -79,36 +79,45 @@ function App() {
     setTodo(newTodos);
   };
 
-  const handleFiltersState = (state) => {
-    setFilter(state);
-    setLogginVisible(false);
-  };
+  // const handleFiltersState = (state) => {
+  //   setFilter(state);
+  //   setLogginVisible(false);
+  // };
 
-  const handleLogginButtonClick = () => {
-    setLogginVisible(true);
-  };
+  // const handleLogginButtonClick = () => {
+  //   setLogginVisible(true);
+  // };
 
   return (
     <div className="App">
       <p id="todo-header">To-Do List</p>
       <div className="add-button-input">
-        <input
+        {/* <input
           id="input"
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Add a new task..."
+        /> */}
+        <Search 
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        setError={setError}
+        handleAddTask={handleAddTask}
         />
         <button id="button" onClick={handleAddTask}>Add</button>
       </div>
 
-      <div id="buttons">
+      {/* <div id="buttons">
         <button id="all-button" onClick={() => handleFiltersState("All")}>All</button>
         <button id="active-button" onClick={() => handleFiltersState("Active")}>Active</button>
         <button id="completed-button" onClick={() => handleFiltersState("Done")}>Completed</button>
         <button id="loggin-button" onClick={handleLogginButtonClick}>Loggin</button>
-      </div>
-
+      </div> */}
+      <Button 
+      setFilter={setFilter} 
+      setLogginVisible={setLogginVisible} 
+      />
       <div>
         {error.length > 1 && <div id="error">{error}</div>}
         {todo
