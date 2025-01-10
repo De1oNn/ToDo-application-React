@@ -99,6 +99,7 @@ function App() {
         <p id="tasks">{completedTasks} of {todo.length} tasks completed</p>
         <p id="clear" onClick={handleClearCompleted}>Clear Completed</p>
       </div>
+    
 {/* loggin new divs */}
       {logginVisible && (
         <div id="loggin">
